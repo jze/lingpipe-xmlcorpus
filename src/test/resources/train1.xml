@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <training>
-    <line>
-        <PER>John</PER>
-        ran.
-    </line>
+    <line><PER>John</PER> ran.</line>
     <line>The kid ran.</line>
-    <line>
-        <PER>John</PER>
-        likes<PER>Mary</PER>.
-    </line>
-    <line>This
-        <PER>Tim</PER>
-        lives in
-        <LOC>Washington</LOC>
-    </line>
-    <line>
-        <PER>Mary Smith</PER>
-        is in
-        <LOC>New York City</LOC>
-    </line>
-    <line>
-        <LOC>New York City</LOC>
-        is fun.
-    </line>
-    <line>
-        <LOC>Chicago</LOC>
-        is not like
-        <LOC>Washington</LOC>
-    </line>
+    <line><PER>John</PER> likes <PER>Mary</PER>.</line>
+    <line>This <PER>Tim</PER> lives in <LOC>Washington</LOC></line>
+    <line><PER>Mary Smith</PER> is in <LOC>New York City</LOC></line>
+    <line><LOC>New York City</LOC> is fun.</line>
+    <line><LOC>Chicago</LOC> is not like <LOC>Washington</LOC></line>
 </training>
