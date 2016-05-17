@@ -1,0 +1,5 @@
+image: maven
+
+job1:
+  script:
+    - mvn test
