@@ -19,8 +19,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </build>
   <dependencies>
       <dependency>
-          <groupId>com.aliasi</groupId>
-          <artifactId>lingpipe</artifactId>
+          <groupId>de.julielab</groupId>
+          <artifactId>aliasi-lingpipe</artifactId>
           <version>4.1.0</version>
       </dependency>
       <dependency>
