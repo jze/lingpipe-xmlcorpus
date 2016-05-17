@@ -17,10 +17,6 @@
 
 package de.unikiel.informatik.jze.lingpipe;
 
-import com.aliasi.chunk.BioTagChunkCodec;
-import com.aliasi.chunk.Chunking;
-import com.aliasi.corpus.ObjectHandler;
-import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,6 +31,7 @@ import static org.junit.Assert.assertEquals;
  * @author Jesper Zedlitz <j.zedlitz@email.uni-kiel.de>
  */
 public class XmlCorpusTest {
+
     @Test
     public void testProcessLine() {
         assertEquals(chunking("John ran.",
@@ -96,14 +93,17 @@ public class XmlCorpusTest {
     @Test
     public void file() throws IOException {
         XmlCorpus corpus = new XmlCorpus(new File(getClass().getResource("/wk1vermisste.xml").getFile()));
-        corpus.visitTrain(new ObjectHandler<Chunking>() {
-            BioTagChunkCodec codec = new BioTagChunkCodec(IndoEuropeanTokenizerFactory.INSTANCE, true);
+        CountingChunkingHandler handler = new CountingChunkingHandler();
+        corpus.visitTrain(handler);
+        assertEquals(50, handler.getCount());
+    }
 
-            @Override
-            public void handle(Chunking chunking) {
-                codec.toTagging(chunking);
-            }
-        });
+    @Test
+    public void inputStream() throws IOException {
+        XmlCorpus corpus = new XmlCorpus(getClass().getResourceAsStream("/wk1vermisste.xml"));
+        CountingChunkingHandler handler = new CountingChunkingHandler();
+        corpus.visitTrain(handler);
+        assertEquals(50, handler.getCount());
     }
 
     @Test
@@ -117,10 +117,10 @@ public class XmlCorpusTest {
         assertEquals("<PER>Mary</PER> ran.", XmlCorpus.chunkingToXml(chunking("Mary ran.",
                 chunk(0, 4, "PER"))));
         assertEquals("The kid ran.", XmlCorpus.chunkingToXml(chunking("The kid ran.")));
-        assertEquals("<PER>John</PER> likes <PER>Mary</PER>.",XmlCorpus.chunkingToXml(chunking("John likes Mary.",
+        assertEquals("<PER>John</PER> likes <PER>Mary</PER>.", XmlCorpus.chunkingToXml(chunking("John likes Mary.",
                 chunk(0, 4, "PER"),
                 chunk(11, 15, "PER"))));
-        assertEquals("<PER>Tim</PER> lives in <LOC>Washington</LOC>",XmlCorpus.chunkingToXml(chunking("Tim lives in Washington",
+        assertEquals("<PER>Tim</PER> lives in <LOC>Washington</LOC>", XmlCorpus.chunkingToXml(chunking("Tim lives in Washington",
                 chunk(0, 3, "PER"),
                 chunk(13, 23, "LOC"))));
         assertEquals("<PER>Mary Smith</PER> is in <LOC>New York City</LOC>", XmlCorpus.chunkingToXml(chunking("Mary Smith is in New York City",
@@ -131,5 +131,14 @@ public class XmlCorpusTest {
         assertEquals("<LOC>Chicago</LOC> is not like <LOC>Washington</LOC>", XmlCorpus.chunkingToXml(chunking("Chicago is not like Washington",
                 chunk(0, 7, "LOC"),
                 chunk(20, 30, "LOC"))));
+    }
+
+    @Test
+    public void realXml() throws IOException {
+        XmlCorpus corpus = new XmlCorpus(getClass().getResourceAsStream("/train1.xml"));
+        CountingChunkingHandler handler = new CountingChunkingHandler();
+        corpus.visitTrain(handler);
+        assertEquals(7, handler.getCount());
+
     }
 }

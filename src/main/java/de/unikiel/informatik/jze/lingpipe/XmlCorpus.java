@@ -25,10 +25,7 @@ import com.aliasi.corpus.Corpus;
 import com.aliasi.corpus.ObjectHandler;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -38,12 +35,18 @@ public class XmlCorpus extends Corpus<ObjectHandler<Chunking>> {
 
     private List<Chunking> chunkings = new ArrayList<>();
 
-    private File file;
+    private InputStream input;
 
     public XmlCorpus(File file) throws IOException {
-        this.file = file;
+        this.input = new FileInputStream(file);
         init();
     }
+
+    public XmlCorpus(InputStream input) throws IOException {
+        this.input = input;
+        init();
+    }
+
 
     static Chunking chunking(String s, Chunk... chunks) {
         ChunkingImpl chunking = new ChunkingImpl(s);
@@ -185,11 +188,25 @@ public class XmlCorpus extends Corpus<ObjectHandler<Chunking>> {
     }
 
     private void init() throws IOException {
-        BufferedReader in = new BufferedReader(new FileReader(file));
+        BufferedReader in = new BufferedReader(new InputStreamReader(input));
         String line = in.readLine();
-        while (line != null) {
-            chunkings.add(processLine(line));
+
+        if (line.startsWith("<?xml ")) {
+            // This is a real XML document. Only process lines that start with "<line>".
             line = in.readLine();
+            while (line != null) {
+                String s = StringUtils.trim(line);
+                if (s.startsWith("<line>") && s.endsWith("</line>")) {
+                    chunkings.add(processLine(StringUtils.substringBetween(line, "<line>", "</line>")));
+                }
+                line = in.readLine();
+            }
+        } else {
+            // pseudo XML file
+            while (line != null) {
+                chunkings.add(processLine(line));
+                line = in.readLine();
+            }
         }
     }
 
