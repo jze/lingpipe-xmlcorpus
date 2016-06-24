@@ -1,6 +1,21 @@
-## XmlCorpus for LingPipe
+# XmlCorpus for LingPipe
 
 http://alias-i.com/lingpipe/
+
+## Usage
+To use the XmlCorpus in your project clone this repository. Build and install the library with Maven:
+
+	clone https://git.informatik.uni-kiel.de/jze/lingpipe-xmlcorpus.git
+	cd xmlcorpus
+	mvn install
+
+Now you can include it into your Maven projects like this:
+
+        <dependency>
+            <groupId>de.unikiel.informatik.jze</groupId>
+            <artifactId>lingpipe-xmlcorpus</artifactId>
+            <version>0.1</version>
+        </dependency>
 
 ## Train chunkings
 The XmlCorpus class can be used as a replacement for every Corpus used to train chunking. Instead of programming your own corpus-class you can simply use an instance of XmlCorpus:
