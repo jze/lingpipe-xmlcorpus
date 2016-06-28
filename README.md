@@ -5,8 +5,8 @@ http://alias-i.com/lingpipe/
 ## Usage
 To use the XmlCorpus in your project clone this repository. Build and install the library with Maven:
 
-	clone https://git.informatik.uni-kiel.de/jze/lingpipe-xmlcorpus.git
-	cd xmlcorpus
+	git clone https://git.informatik.uni-kiel.de/jze/lingpipe-xmlcorpus.git
+	cd lingpipe-xmlcorpus/
 	mvn install
 
 Now you can include it into your Maven projects like this:
