@@ -17,21 +17,26 @@
 
 package de.unikiel.informatik.jze.lingpipe;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import com.aliasi.corpus.ObjectHandler;
+import org.junit.Assert;
 
 /**
+ * Compare the results returned by the "handle" method with the expected results by converting them to Strings and
+ * do a string comparison.
+ *
  * @author Jesper Zedlitz <j.zedlitz@email.uni-kiel.de>
- * @deprecated Use {@link XmlCorpusForChunking} instead.
  */
-public class XmlCorpus extends XmlCorpusForChunking {
+public class StringCompareObjectHandler<T> implements ObjectHandler<T> {
 
-    public XmlCorpus(File file) throws IOException {
-        super(file);
+    private Object[] expectedResults;
+    private int count = 0;
+
+    public StringCompareObjectHandler(Object... expectedResults) {
+        this.expectedResults = expectedResults;
     }
 
-    public XmlCorpus(InputStream input) throws IOException {
-        super(input);
+    @Override
+    public void handle(T t) {
+        Assert.assertEquals(expectedResults[count++].toString(), t.toString());
     }
 }
