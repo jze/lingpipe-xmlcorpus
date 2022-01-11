@@ -6,7 +6,7 @@ http://alias-i.com/lingpipe/
 To use the XmlCorpus in your project clone this repository. Build and install the library with Maven:
 
 ```bash
-git clone https://git.informatik.uni-kiel.de/jze/lingpipe-xmlcorpus.git
+git clone https://github.com/jze/lingpipe-xmlcorpus.git
 cd lingpipe-xmlcorpus/
 mvn install
 ```
